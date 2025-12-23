@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiGi Technologies - Open Source Innovation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-dark: #0a0e17;
+            --secondary-dark: #121828;
+            --accent-electric: #00f7ff;
+            --accent-electric-light: #6df7ff;
+            --accent-ai: #ff00d4;
+            --accent-ai-light: #ff6df0;
+            --text-light: #f0f8ff;
+            --text-gray: #b0b8d0;
+            --card-bg: rgba(18, 24, 40, 0.8);
+            --glow-blue: 0 0 15px rgba(0, 247, 255, 0.7);
+            --glow-pink: 0 0 15px rgba(255, 0, 212, 0.7);
+        }
+
+        body {
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background elements */
+        .background-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: var(--accent-electric);
+            border-radius: 50%;
+            box-shadow: var(--glow-blue);
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background-color: rgba(10, 14, 23, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo i {
+            color: var(--accent-electric);
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item:hover {
+            color: var(--accent-electric);
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-electric));
+            transition: left 0.5s ease;
+        }
+
+        .nav-item:hover::after {
+            left: 100%;
+        }
+
+        .nav-item.ai-highlight {
+            color: var(--accent-ai);
+            background-color: rgba(255, 0, 212, 0.1);
+            border: 1px solid rgba(255, 0, 212, 0.3);
+        }
+
+        .nav-item.ai-highlight:hover {
+            color: var(--accent-ai-light);
+            box-shadow: var(--glow-pink);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 5% 3rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--accent-electric), var(--text-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-electric);
+            color: var(--primary-dark);
+            border: 2px solid var(--accent-electric);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--accent-electric);
+            box-shadow: var(--glow-blue);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-electric);
+            border: 2px solid var(--accent-electric);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-electric);
+            color: var(--primary-dark);
+            box-shadow: var(--glow-blue);
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 4rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-electric), transparent);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--glow-blue);
+            border-color: var(--accent-electric);
+        }
+
+        .project-card.ai-card {
+            border-color: rgba(255, 0, 212, 0.1);
+        }
+
+        .project-card.ai-card:hover {
+            box-shadow: var(--glow-pink);
+            border-color: var(--accent-ai);
+        }
+
+        .project-icon {
+            font-size: 3.5rem;
+            color: var(--accent-electric);
+            margin-bottom: 1.5rem;
+        }
+
+        .ai-card .project-icon {
+            color: var(--accent-ai);
+        }
+
+        .project-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .project-desc {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .coming-soon {
+            color: var(--accent-electric);
+            font-weight: 700;
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .project-card.active .coming-soon {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Company info */
+        .company-info {
+            padding: 4rem 5%;
+            background-color: var(--secondary-dark);
+            border-top: 1px solid rgba(0, 247, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 247, 255, 0.1);
+            text-align: center;
+        }
+
+        .company-info p {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            font-size: 1.2rem;
+            line-height: 1.7;
+            color: var(--text-gray);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-electric);
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: rgba(0, 247, 255, 0.1);
+            box-shadow: var(--glow-blue);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 5%;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 247, 255, 0.1);
+        }
+
+        .footer-logo {
+            color: var(--accent-electric);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated background elements -->
+    <div class="background-elements" id="particles-container"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-code"></i>
+            <span>SiGi Technologies</span>
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="nav-item">Home</a>
+            <a href="#projects" class="nav-item">Projects</a>
+            <a href="#" class="nav-item" id="open-domotics">Open Domotics</a>
+            <a href="#" class="nav-item" id="illumination-system">Sigi Custom Illumination</a>
+            <a href="#" class="nav-item ai-highlight" id="sigi-ai">Sigi AI</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Open Source Technology for Your Home</h1>
+        <p>We are SiGi Technologies, an open source organization dedicated to bringing cutting-edge technology into your homes. Our mission is to create accessible, innovative solutions that empower everyone to experience the future today.</p>
+        <div class="cta-buttons">
+            <a href="#projects" class="btn btn-primary">
+                <i class="fas fa-rocket"></i> Explore Projects
+            </a>
+            <a href="https://github.com/Sigi-technonogies" target="_blank" class="btn btn-secondary">
+                <i class="fab fa-github"></i> View on GitHub
+            </a>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <h2 class="section-title">Our Projects</h2>
+        <div class="projects-grid">
+            <!-- Project 1 - Open Domotics -->
+            <div class="project-card" id="project-domotics">
+                <div class="project-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3 class="project-title">Open Domotics</h3>
+                <p class="project-desc">Revolutionary open source home automation system that brings seamless control and integration to every aspect of your smart home.</p>
+                <div class="coming-soon">Coming 2026</div>
+            </div>
+
+            <!-- Project 2 - Custom Illumination -->
+            <div class="project-card" id="project-illumination">
+                <div class="project-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <h3 class="project-title">Sigi Custom Illumination System</h3>
+                <p class="project-desc">Advanced lighting control system with customizable patterns, colors, and intelligent automation for any environment.</p>
+                <div class="coming-soon">Coming 2026</div>
+            </div>
+
+            <!-- Project 3 - Sigi AI -->
+            <div class="project-card ai-card" id="project-ai">
+                <div class="project-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="project-title">Sigi AI</h3>
+                <p class="project-desc">Intelligent assistant powered by advanced machine learning algorithms, designed to adapt and learn from your home environment.</p>
+                <div class="coming-soon">Coming 2026</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Info -->
+    <section class="company-info">
+        <p>We are SiGi Technologies, we are an open source organization, and our goal is to bring technology in your homes. Through community collaboration and transparent development, we're building the future of home technology.</p>
+        <div class="social-links">
+            <a href="https://www.youtube.com/@SiGi.official" target="_blank" class="social-link">
+                <i class="fab fa-youtube"></i> YouTube Channel
+            </a>
+            <a href="https://github.com/Sigi-technonogies" target="_blank" class="social-link">
+                <i class="fab fa-github"></i> GitHub Repository
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">SiGi Technologies</div>
+        <p>Open Source Innovation for Tomorrow's Homes | © 2025 SiGi Technologies. All open source projects.</p>
+        <p style="margin-top: 10px; font-size: 0.8rem;">All projects coming in 2026</p>
+    </footer>
+
+    <script>
+        // Create animated background particles
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const particleCount = 60;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                
+                // Random size
+                const size = Math.random() * 4 + 1;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random animation
+                const duration = Math.random() * 20 + 10;
+                particle.style.animation = `float ${duration}s infinite ease-in-out`;
+                
+                // Add animation keyframes dynamically
+                const styleSheet = document.createElement('style');
+                styleSheet.textContent = `
+                    @keyframes float {
+                        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+                        25% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 50 - 25}px) rotate(90deg); }
+                        50% { transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) rotate(180deg); }
+                        75% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 100 - 50}px) rotate(270deg); }
+                    }
+                `;
+                document.head.appendChild(styleSheet);
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // Handle project card clicks
+        function setupProjectCards() {
+            const projectCards = document.querySelectorAll('.project-card');
+            const navItems = document.querySelectorAll('.nav-item:not(:first-child):not(:nth-child(2))');
+            
+            // Function to show coming soon message
+            function showComingSoon(card) {
+                // Remove active class from all cards
+                projectCards.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked card
+                card.classList.add('active');
+                
+                // Remove active class after 3 seconds
+                setTimeout(() => {
+                    card.classList.remove('active');
+                }, 3000);
+            }
+            
+            // Add click events to project cards
+            projectCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    showComingSoon(card);
+                });
+            });
+            
+            // Add click events to navigation items
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Find corresponding project card
+                    let targetCard;
+                    if (item.id === 'open-domotics') {
+                        targetCard = document.getElementById('project-domotics');
+                    } else if (item.id === 'illumination-system') {
+                        targetCard = document.getElementById('project-illumination');
+                    } else if (item.id === 'sigi-ai') {
+                        targetCard = document.getElementById('project-ai');
+                    }
+                    
+                    if (targetCard) {
+                        // Scroll to projects section
+                        document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+                        
+                        // Highlight the card after a short delay
+                        setTimeout(() => {
+                            showComingSoon(targetCard);
+                        }, 500);
+                    }
+                });
+            });
+        }
+
+        // Smooth scroll for navigation links
+        function setupSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    // Skip if it's a project link (handled separately)
+                    if (href === '#' || this.classList.contains('ai-highlight') || 
+                        this.id === 'open-domotics' || this.id === 'illumination-system' || this.id === 'sigi-ai') {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            setupProjectCards();
+            setupSmoothScroll();
+            
+            // Add a subtle hover effect to all project cards on page load
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.project-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.transform = 'translateY(-5px)';
+                        setTimeout(() => {
+                            card.style.transform = '';
+                        }, 300);
+                    }, index * 200);
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
