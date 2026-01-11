@@ -201,6 +201,7 @@
             border: 2px solid var(--accent-electric);
             border-radius: 50px;
             transition: all 0.3s ease;
+            margin-top: 4rem;
         }
 
         .back-to-home:hover {
@@ -209,22 +210,166 @@
             box-shadow: var(--glow-blue);
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 2rem 5%;
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(0, 247, 255, 0.1);
+        /* === STILI CASO 1 - IMMAGINI CON DIDASCALIE === */
+        /* Stili per le immagini con didascalie */
+        .image-section {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            margin: 4rem auto;
+            max-width: 1200px;
+            padding: 0 5%;
         }
 
-        .footer-logo {
+        .image-section.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .image-container {
+            flex: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--glow-blue);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .image-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(0, 247, 255, 0.9);
+        }
+
+        .project-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .image-container:hover .project-image {
+            transform: scale(1.03);
+        }
+
+        .caption-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .caption-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
             color: var(--accent-electric);
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
         }
 
+        .caption-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-gray);
+        }
+
+        /* Galleria di immagini */
+        .gallery-section {
+            margin: 6rem auto;
+            max-width: 1200px;
+            padding: 0 5%;
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent-electric);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--glow-blue);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+        }
+
+        .gallery-caption {
+            padding: 1.5rem;
+        }
+
+        .gallery-caption h3 {
+            color: var(--accent-electric);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .gallery-caption p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Timeline/concept */
+        .concept-section {
+            max-width: 800px;
+            margin: 6rem auto;
+            padding: 0 5%;
+        }
+
+        .concept-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--accent-electric);
+        }
+
+        .concept-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+            gap: 2rem;
+        }
+
+        .concept-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 247, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--accent-electric);
+            flex-shrink: 0;
+            border: 1px solid rgba(0, 247, 255, 0.3);
+        }
+
+        .concept-content h3 {
+            color: var(--accent-electric);
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .concept-content p {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
         @media (max-width: 992px) {
             .coming-soon-text {
                 font-size: 4rem;
@@ -259,177 +404,49 @@
                 font-size: 3rem;
             }
             
-
+            /* Responsive per le immagini */
             .image-section {
-                display: flex;
-                align-items: center;
-                gap: 3rem;
-                margin: 4rem 0;
-                max-width: 1200px;
-                padding: 0 5%;
+                flex-direction: column;
+                gap: 2rem;
             }
-        
+            
             .image-section.reverse {
-                flex-direction: row-reverse;
+                flex-direction: column;
             }
-        
-            .image-container {
-                flex: 1;
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: var(--glow-blue);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-            }
-        
-            .image-container:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 0 25px rgba(0, 247, 255, 0.9);
-            }
-        
-            .project-image {
-                width: 100%;
-                height: auto;
-                display: block;
-                transition: transform 0.5s ease;
-            }
-        
-            .image-container:hover .project-image {
-                transform: scale(1.03);
-            }
-        
+            
             .caption-content {
-                flex: 1;
-                text-align: left;
-            }
-        
-            .caption-title {
-                font-size: 2rem;
-                margin-bottom: 1rem;
-                color: var(--accent-electric);
-            }
-        
-            .caption-text {
-                font-size: 1.1rem;
-                line-height: 1.6;
-                color: var(--text-gray);
-            }
-        
-            /* Galleria di immagini */
-            .gallery-section {
-                margin: 4rem 0;
-                max-width: 1200px;
-                padding: 0 5%;
-            }
-        
-            .gallery-title {
                 text-align: center;
-                font-size: 2.5rem;
-                margin-bottom: 2rem;
-                color: var(--accent-electric);
             }
-        
+            
             .gallery-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 2rem;
-                margin-top: 2rem;
+                grid-template-columns: 1fr;
             }
-        
-            .gallery-item {
-                background: var(--card-bg);
-                border-radius: 12px;
-                overflow: hidden;
-                border: 1px solid rgba(0, 247, 255, 0.2);
-                transition: transform 0.3s ease, box-shadow 0.3s ease;
-            }
-        
-            .gallery-item:hover {
-                transform: translateY(-8px);
-                box-shadow: var(--glow-blue);
-            }
-        
-            .gallery-image {
-                width: 100%;
-                height: 200px;
-                object-fit: cover;
-                border-bottom: 1px solid rgba(0, 247, 255, 0.2);
-            }
-        
-            .gallery-caption {
-                padding: 1.5rem;
-            }
-        
-            .gallery-caption h3 {
-                color: var(--accent-electric);
-                margin-bottom: 0.5rem;
-                font-size: 1.3rem;
-            }
-        
-            .gallery-caption p {
-                color: var(--text-gray);
-                font-size: 0.95rem;
-                line-height: 1.5;
-            }
-        
-            /* Timeline/concept */
-            .concept-section {
-                max-width: 800px;
-                margin: 4rem auto;
-                padding: 0 5%;
-            }
-        
+            
             .concept-item {
-                display: flex;
-                align-items: center;
-                margin-bottom: 3rem;
-                gap: 2rem;
+                flex-direction: column;
+                text-align: center;
             }
-        
+            
             .concept-icon {
-                width: 80px;
-                height: 80px;
-                background: rgba(0, 247, 255, 0.1);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 2rem;
-                color: var(--accent-electric);
-                flex-shrink: 0;
+                margin-bottom: 1rem;
             }
-        
-            .concept-content h3 {
-                color: var(--accent-electric);
-                margin-bottom: 0.5rem;
-                font-size: 1.5rem;
-            }
-        
-            .concept-content p {
-                color: var(--text-gray);
-                line-height: 1.6;
-            }
-        
-            /* Responsive */
-            @media (max-width: 768px) {
-                .image-section {
-                    flex-direction: column;
-                    gap: 2rem;
-                }
-                
-                .image-section.reverse {
-                    flex-direction: column;
-                }
-                
-                .gallery-grid {
-                    grid-template-columns: 1fr;
-                }
-                
-                .concept-item {
-                    flex-direction: column;
-                    text-align: center;
-                }
-            }
+        }
 
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 5%;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(0, 247, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-logo {
+            color: var(--accent-electric);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
     </style>
 </head>
@@ -469,6 +486,116 @@
             from lighting and climate to security and entertainment systems. 
             With seamless integration and customizable automation, Open Domotics brings the future of living to your doorstep.
         </p>
+        
+        <!-- === SEZIONE 1: Immagine con didascalia laterale === -->
+        <div class="image-section">
+            <div class="image-container">
+                <!-- Sostituisci questa URL con la tua immagine -->
+                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" 
+                     alt="Open Domotics Smart Home Interface" 
+                     class="project-image">
+            </div>
+            <div class="caption-content">
+                <h2 class="caption-title">Unified Control Interface</h2>
+                <p class="caption-text">
+                    Experience seamless control over all your smart devices through our intuitive dashboard. 
+                    Monitor energy consumption, adjust climate settings, and manage security systems from a single, 
+                    unified interface designed for simplicity and efficiency. Our responsive design ensures 
+                    perfect operation on any device, from smartphones to wall-mounted tablets.
+                </p>
+            </div>
+        </div>
+        
+        <!-- === SEZIONE 2: Immagine con didascalia laterale (invertita) === -->
+        <div class="image-section reverse">
+            <div class="image-container">
+                <!-- Sostituisci questa URL con la tua immagine -->
+                <img src="https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" 
+                     alt="Open Domotics Automation Setup" 
+                     class="project-image">
+            </div>
+            <div class="caption-content">
+                <h2 class="caption-title">Advanced Automation</h2>
+                <p class="caption-text">
+                    Create complex automation routines with our visual scripting interface. 
+                    From sunrise-aligned lighting schedules to presence-based climate control, 
+                    our platform learns your habits and adapts to your lifestyle. 
+                    Set up "scenes" that combine multiple actions with a single command or schedule.
+                </p>
+            </div>
+        </div>
+        
+        <!-- === GALLERIA DI FUNZIONALITÀ === -->
+        <div class="gallery-section">
+            <h2 class="gallery-title">Key Features</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                         alt="Energy Monitoring" 
+                         class="gallery-image">
+                    <div class="gallery-caption">
+                        <h3>Energy Monitoring</h3>
+                        <p>Real-time tracking and optimization of your home's energy consumption with detailed analytics and cost-saving suggestions.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1589256469067-ea99122bbdc4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                         alt="Security Integration" 
+                         class="gallery-image">
+                    <div class="gallery-caption">
+                        <h3>Security Integration</h3>
+                        <p>Unified security system with smart cameras, sensors, motion detectors, and instant alert notifications.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
+                         alt="Voice Control" 
+                         class="gallery-image">
+                    <div class="gallery-caption">
+                        <h3>Voice Control</h3>
+                        <p>Natural language processing for hands-free home management. Compatible with major voice assistants.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- === SEZIONE TIMELINE/CONCEPT === -->
+        <div class="concept-section">
+            <h2 class="concept-title">Development Roadmap</h2>
+            
+            <div class="concept-item">
+                <div class="concept-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <div class="concept-content">
+                    <h3>Open Source Core</h3>
+                    <p>Built on transparent, community-driven development principles with full API documentation. 
+                    Our code is available on GitHub for collaboration and customization.</p>
+                </div>
+            </div>
+            
+            <div class="concept-item">
+                <div class="concept-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <div class="concept-content">
+                    <h3>Universal Compatibility</h3>
+                    <p>Support for 1000+ devices across multiple protocols (Zigbee, Z-Wave, Wi-Fi, Bluetooth, Matter). 
+                    Seamless integration with existing smart home ecosystems.</p>
+                </div>
+            </div>
+            
+            <div class="concept-item">
+                <div class="concept-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="concept-content">
+                    <h3>Privacy First</h3>
+                    <p>Local processing by default with optional cloud integration. Your data stays with you. 
+                    End-to-end encryption for all communications and storage.</p>
+                </div>
+            </div>
+        </div>
         
         <a href="index.html" class="back-to-home">
             <i class="fas fa-arrow-left"></i> Back to Home
