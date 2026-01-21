@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SiGi Technologies - Open Source Innovation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <style>
         * {
             margin: 0;
@@ -453,13 +457,330 @@
             </div>
         </section>
     </main>
-
+        <!-- Newsletter/Registration Section -->
+    <section class="newsletter-section" id="newsletter">
+        <div class="container" style="max-width: 800px; margin: 4rem auto; padding: 0 5%;">
+            <h2 style="text-align: center; color: var(--accent-electric); font-size: 2.5rem; margin-bottom: 1.5rem;">
+                Join Our Community
+            </h2>
+            <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem; font-size: 1.1rem;">
+                Create an account to receive updates, access exclusive content, and contribute to our open-source projects.
+            </p>
+            
+            <!-- Simple Newsletter Form (Default - Shows first) -->
+            <div id="simpleNewsletter" style="background: var(--card-bg); padding: 2rem; border-radius: 12px; border: 1px solid rgba(0, 247, 255, 0.2);">
+                <h3 style="color: var(--accent-electric); text-align: center; margin-bottom: 1.5rem;">
+                    <i class="fas fa-envelope"></i> Subscribe to Newsletter
+                </h3>
+                
+                <form id="newsletterForm">
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Name
+                            </label>
+                            <input type="text" id="newsletterName" 
+                                   style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;"
+                                   placeholder="Your name" required>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Email Address
+                            </label>
+                            <input type="email" id="newsletterEmail" 
+                                   style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;"
+                                   placeholder="your.email@example.com" required>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Project Interests
+                            </label>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 0.5rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-gray);">
+                                    <input type="checkbox" name="interests" value="open-domotics" style="accent-color: var(--accent-electric);">
+                                    Open Domotics
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-gray);">
+                                    <input type="checkbox" name="interests" value="illumination" style="accent-color: var(--accent-electric);">
+                                    Illumination
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-gray);">
+                                    <input type="checkbox" name="interests" value="ai" style="accent-color: var(--accent-electric);">
+                                    Sigi AI
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="newsletterBtn"
+                                style="background: var(--accent-electric); color: var(--primary-dark); border: none; padding: 1rem; border-radius: 6px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-paper-plane"></i> Subscribe
+                        </button>
+                    </div>
+                </form>
+                
+                <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0, 247, 255, 0.1);">
+                    <p style="color: var(--text-gray); margin-bottom: 1rem;">Want full account features?</p>
+                    <button onclick="showFullSignup()" 
+                            style="background: transparent; color: var(--accent-electric); border: 2px solid var(--accent-electric); padding: 0.8rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer;">
+                        <i class="fas fa-user-plus"></i> Create Full Account
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Full Signup Form (Hidden by default) -->
+            <div id="fullSignupForm" style="background: var(--card-bg); padding: 2rem; border-radius: 12px; border: 1px solid rgba(0, 247, 255, 0.2); display: none;">
+                <h3 style="color: var(--accent-electric); text-align: center; margin-bottom: 1.5rem;">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </h3>
+                
+                <form id="signupForm">
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Full Name
+                            </label>
+                            <input type="text" id="signupName" 
+                                   style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;"
+                                   placeholder="Your full name" required>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Email Address
+                            </label>
+                            <input type="email" id="signupEmail" 
+                                   style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;"
+                                   placeholder="your.email@example.com" required>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Password
+                            </label>
+                            <input type="password" id="signupPassword" 
+                                   style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;"
+                                   placeholder="Min. 6 characters" required minlength="6">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Confirm Password
+                            </label>
+                            <input type="password" id="signupConfirmPassword" 
+                                   style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;"
+                                   placeholder="Confirm your password" required minlength="6">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Role
+                            </label>
+                            <select id="signupRole" 
+                                    style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;">
+                                <option value="user">Regular User</option>
+                                <option value="developer">Developer</option>
+                                <option value="contributor">Contributor</option>
+                                <option value="enthusiast">Tech Enthusiast</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-gray);">
+                                <input type="checkbox" id="termsAgree" required style="accent-color: var(--accent-electric);">
+                                I agree to the <a href="#" style="color: var(--accent-electric);">Terms of Service</a> and <a href="#" style="color: var(--accent-electric);">Privacy Policy</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" id="signupBtn"
+                                style="background: var(--accent-electric); color: var(--primary-dark); border: none; padding: 1rem; border-radius: 6px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="signupMessage" style="text-align: center; padding: 1rem; border-radius: 6px; margin-top: 1rem; display: none;"></div>
+                
+                <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0, 247, 255, 0.1);">
+                    <p style="color: var(--text-gray); margin-bottom: 1rem;">Already have an account?</p>
+                    <button onclick="showLoginForm()" 
+                            style="background: transparent; color: var(--accent-electric); border: 2px solid var(--accent-electric); padding: 0.8rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer; margin-right: 1rem;">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    <button onclick="showSimpleNewsletter()" 
+                            style="background: transparent; color: var(--text-gray); border: 2px solid var(--text-gray); padding: 0.8rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer;">
+                        Back to Newsletter
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Login Form (Hidden by default) -->
+            <div id="loginForm" style="background: var(--card-bg); padding: 2rem; border-radius: 12px; border: 1px solid rgba(0, 247, 255, 0.2); display: none;">
+                <h3 style="color: var(--accent-electric); text-align: center; margin-bottom: 1.5rem;">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </h3>
+                
+                <form id="loginFormElement">
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Email Address
+                            </label>
+                            <input type="email" id="loginEmail" 
+                                   style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;"
+                                   placeholder="your.email@example.com" required>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Password
+                            </label>
+                            <input type="password" id="loginPassword" 
+                                   style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;"
+                                   placeholder="Your password" required>
+                        </div>
+                        
+                        <button type="submit" id="loginBtn"
+                                style="background: var(--accent-electric); color: var(--primary-dark); border: none; padding: 1rem; border-radius: 6px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="loginMessage" style="text-align: center; padding: 1rem; border-radius: 6px; margin-top: 1rem; display: none;"></div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <p style="color: var(--text-gray); margin-bottom: 1rem;">
+                        <a href="#" onclick="showForgotPassword()" style="color: var(--accent-electric); text-decoration: none;">
+                            Forgot your password?
+                        </a>
+                    </p>
+                    <button onclick="showSimpleNewsletter()" 
+                            style="background: transparent; color: var(--accent-electric); border: 2px solid var(--accent-electric); padding: 0.8rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer;">
+                        <i class="fas fa-arrow-left"></i> Back to Newsletter
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Forgot Password Form (Hidden by default) -->
+            <div id="forgotPasswordForm" style="background: var(--card-bg); padding: 2rem; border-radius: 12px; border: 1px solid rgba(0, 247, 255, 0.2); display: none;">
+                <h3 style="color: var(--accent-electric); text-align: center; margin-bottom: 1.5rem;">
+                    <i class="fas fa-key"></i> Reset Password
+                </h3>
+                
+                <form id="forgotPasswordFormElement">
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <p style="color: var(--text-gray); text-align: center;">
+                            Enter your email address and we'll send you a link to reset your password.
+                        </p>
+                        
+                        <div>
+                            <label style="display: block; color: var(--accent-electric); margin-bottom: 0.5rem; font-weight: 600;">
+                                Email Address
+                            </label>
+                            <input type="email" id="forgotPasswordEmail" 
+                                   style="width: 100%; padding: 1rem; background: rgba(10, 14, 23, 0.7); border: 1px solid rgba(0, 247, 255, 0.3); border-radius: 6px; color: var(--text-light); font-size: 1rem;"
+                                   placeholder="your.email@example.com" required>
+                        </div>
+                        
+                        <button type="submit" id="forgotPasswordBtn"
+                                style="background: var(--accent-electric); color: var(--primary-dark); border: none; padding: 1rem; border-radius: 6px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-paper-plane"></i> Send Reset Link
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="forgotPasswordMessage" style="text-align: center; padding: 1rem; border-radius: 6px; margin-top: 1rem; display: none;"></div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="showLoginForm()" 
+                            style="background: transparent; color: var(--accent-electric); border: 2px solid var(--accent-electric); padding: 0.8rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer;">
+                        <i class="fas fa-arrow-left"></i> Back to Sign In
+                    </button>
+                </div>
+            </div>
+            
+            <!-- User Dashboard (Shows when logged in) -->
+            <div id="userDashboard" style="background: var(--card-bg); padding: 2rem; border-radius: 12px; border: 1px solid rgba(0, 247, 255, 0.2); display: none;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="font-size: 4rem; color: var(--accent-electric); margin-bottom: 1rem;">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3 style="color: var(--accent-electric); font-size: 1.8rem; margin-bottom: 0.5rem;">
+                        Welcome, <span id="userNameDisplay"></span>!
+                    </h3>
+                    <p style="color: var(--text-gray);" id="userEmailDisplay"></p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    <div style="background: rgba(0, 247, 255, 0.1); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(0, 247, 255, 0.2);">
+                        <h4 style="color: var(--accent-electric); margin-bottom: 0.5rem; font-size: 1rem;">
+                            <i class="fas fa-calendar"></i> Member Since
+                        </h4>
+                        <p id="memberSince" style="color: var(--text-gray); font-size: 0.9rem;"></p>
+                    </div>
+                    
+                    <div style="background: rgba(0, 247, 255, 0.1); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(0, 247, 255, 0.2);">
+                        <h4 style="color: var(--accent-electric); margin-bottom: 0.5rem; font-size: 1rem;">
+                            <i class="fas fa-user-tag"></i> Role
+                        </h4>
+                        <p id="userRole" style="color: var(--text-gray); font-size: 0.9rem;"></p>
+                    </div>
+                    
+                    <div style="background: rgba(0, 247, 255, 0.1); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(0, 247, 255, 0.2);">
+                        <h4 style="color: var(--accent-electric); margin-bottom: 0.5rem; font-size: 1rem;">
+                            <i class="fas fa-envelope"></i> Status
+                        </h4>
+                        <p id="emailVerified" style="color: var(--text-gray); font-size: 0.9rem;"></p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button onclick="signOut()" 
+                            style="background: transparent; color: var(--accent-electric); border: 2px solid var(--accent-electric); padding: 0.8rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer; margin: 0.5rem;">
+                        <i class="fas fa-sign-out-alt"></i> Sign Out
+                    </button>
+                    <button onclick="sendVerificationEmail()" 
+                            style="background: transparent; color: var(--text-gray); border: 2px solid var(--text-gray); padding: 0.8rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer; margin: 0.5rem;">
+                        <i class="fas fa-envelope"></i> Verify Email
+                    </button>
+                </div>
+            </div>
+            
+            <p style="text-align: center; color: var(--text-gray); margin-top: 2rem; font-size: 0.9rem;">
+                We respect your privacy. Your data is securely stored and never shared.
+            </p>
+        </div>
+    </section>
     <!-- Footer -->
     <footer>
         <div class="footer-logo">SiGi Technologies</div>
         <p>Open Source Innovation for Tomorrow's Homes | © 2025-2026 SiGi Technologies. All open source projects.</p>
     </footer>
-
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyCYVAlY9trihiL5bK3JaKHvYr6M4-noTcM",
+        authDomain: "sigi-technologies.firebaseapp.com",
+        projectId: "sigi-technologies",
+        storageBucket: "sigi-technologies.firebasestorage.app",
+        messagingSenderId: "1069605850385",
+        appId: "1:1069605850385:web:b6ae9cfbaa02ae4924d0b0",
+        measurementId: "G-NVEV4DF7V7"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    </script>
     <script>
         // Smooth scroll for navigation links
         function setupSmoothScroll() {
@@ -499,5 +820,418 @@
             }, 500);
         });
     </script>
+    <script>
+    // ============================================
+    // FIREBASE CONFIGURATION
+    // ============================================
+    // SOSTITUISCI QUESTI VALORI CON QUELLI DEL TUO PROGETTO FIREBASE
+    const firebaseConfig = {
+        apiKey: "AIzaSyD...YOUR_API_KEY_HERE",
+        authDomain: "sigi-technologies.firebaseapp.com",
+        projectId: "sigi-technologies",
+        storageBucket: "sigi-technologies.appspot.com",
+        messagingSenderId: "123456789012",
+        appId: "1:123456789012:web:abcdef1234567890"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // ============================================
+    // FORM DISPLAY FUNCTIONS
+    // ============================================
+    function showSimpleNewsletter() {
+        document.getElementById('simpleNewsletter').style.display = 'block';
+        document.getElementById('fullSignupForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('forgotPasswordForm').style.display = 'none';
+        document.getElementById('userDashboard').style.display = 'none';
+    }
+
+    function showFullSignup() {
+        document.getElementById('simpleNewsletter').style.display = 'none';
+        document.getElementById('fullSignupForm').style.display = 'block';
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('forgotPasswordForm').style.display = 'none';
+        document.getElementById('userDashboard').style.display = 'none';
+    }
+
+    function showLoginForm() {
+        document.getElementById('simpleNewsletter').style.display = 'none';
+        document.getElementById('fullSignupForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('forgotPasswordForm').style.display = 'none';
+        document.getElementById('userDashboard').style.display = 'none';
+    }
+
+    function showForgotPassword() {
+        document.getElementById('simpleNewsletter').style.display = 'none';
+        document.getElementById('fullSignupForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('forgotPasswordForm').style.display = 'block';
+        document.getElementById('userDashboard').style.display = 'none';
+    }
+
+    function showUserDashboard(userData) {
+        document.getElementById('simpleNewsletter').style.display = 'none';
+        document.getElementById('fullSignupForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('forgotPasswordForm').style.display = 'none';
+        document.getElementById('userDashboard').style.display = 'block';
+        
+        // Update dashboard with user data
+        document.getElementById('userNameDisplay').textContent = userData.name || userData.email.split('@')[0];
+        document.getElementById('userEmailDisplay').textContent = userData.email;
+        document.getElementById('memberSince').textContent = userData.createdAt ? 
+            new Date(userData.createdAt.toDate()).toLocaleDateString() : 'Recent';
+        document.getElementById('userRole').textContent = userData.role || 'User';
+        document.getElementById('emailVerified').textContent = userData.emailVerified ? 
+            '✅ Verified' : '❌ Not verified';
+        
+        // Change navbar to show user is logged in
+        updateNavbarForUser(userData);
+    }
+
+    function updateNavbarForUser(userData) {
+        // Add user indicator to navbar
+        const navbar = document.querySelector('.navbar');
+        const userIndicator = document.createElement('div');
+        userIndicator.id = 'userNavIndicator';
+        userIndicator.innerHTML = `
+            <span style="color: var(--accent-electric); margin-right: 1rem;">
+                <i class="fas fa-user"></i> ${userData.name || 'User'}
+            </span>
+        `;
+        userIndicator.style.marginLeft = 'auto';
+        userIndicator.style.padding = '0.5rem 1rem';
+        
+        // Remove existing indicator if present
+        const existingIndicator = document.getElementById('userNavIndicator');
+        if (existingIndicator) {
+            existingIndicator.remove();
+        }
+        
+        // Add to navbar (before nav-links)
+        const navLinks = document.querySelector('.nav-links');
+        navbar.insertBefore(userIndicator, navLinks);
+    }
+
+    // ============================================
+    // SIMPLE NEWSLETTER SUBSCRIPTION
+    // ============================================
+    document.getElementById('newsletterForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('newsletterName').value;
+        const email = document.getElementById('newsletterEmail').value;
+        const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked'))
+            .map(cb => cb.value)
+            .join(', ');
+        const btn = document.getElementById('newsletterBtn');
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
+        
+        try {
+            // Save to Firestore newsletter collection
+            await db.collection('newsletter').doc(email).set({
+                name: name,
+                email: email,
+                interests: interests || 'All',
+                subscribedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                type: 'newsletter_only'
+            });
+            
+            showMessage('newsletterMessage', '✅ Successfully subscribed! Check your email for confirmation.', 'success');
+            document.getElementById('newsletterForm').reset();
+            
+        } catch (error) {
+            console.error('Newsletter error:', error);
+            showMessage('newsletterMessage', `❌ Error: ${error.message}`, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Subscribe';
+        }
+    });
+
+    // ============================================
+    // FULL ACCOUNT SIGNUP
+    // ============================================
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('signupName').value;
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const confirmPassword = document.getElementById('signupConfirmPassword').value;
+        const role = document.getElementById('signupRole').value;
+        const btn = document.getElementById('signupBtn');
+        const message = document.getElementById('signupMessage');
+        
+        // Validation
+        if (password !== confirmPassword) {
+            showMessage('signupMessage', '❌ Passwords do not match!', 'error');
+            return;
+        }
+        
+        if (password.length < 6) {
+            showMessage('signupMessage', '❌ Password must be at least 6 characters!', 'error');
+            return;
+        }
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+        
+        try {
+            // 1. Create auth user
+            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            
+            // 2. Send email verification
+            await user.sendEmailVerification();
+            
+            // 3. Save user data to Firestore
+            const userData = {
+                uid: user.uid,
+                name: name,
+                email: email,
+                role: role,
+                emailVerified: false,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                newsletterSubscribed: true,
+                projectsInterested: [],
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            await db.collection('users').doc(user.uid).set(userData);
+            
+            // 4. Also add to newsletter collection
+            await db.collection('newsletter').doc(email).set({
+                name: name,
+                email: email,
+                userId: user.uid,
+                type: 'full_account',
+                subscribedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            
+            showMessage('signupMessage', '✅ Account created! Please check your email to verify your address.', 'success');
+            
+            // Show dashboard after 2 seconds
+            setTimeout(() => {
+                showUserDashboard(userData);
+            }, 2000);
+            
+        } catch (error) {
+            console.error('Signup error:', error);
+            let errorMessage = '❌ Error creating account. ';
+            
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                    errorMessage += 'Email already in use.';
+                    break;
+                case 'auth/invalid-email':
+                    errorMessage += 'Invalid email address.';
+                    break;
+                case 'auth/weak-password':
+                    errorMessage += 'Password is too weak.';
+                    break;
+                default:
+                    errorMessage += error.message;
+            }
+            
+            showMessage('signupMessage', errorMessage, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+        }
+    });
+
+    // ============================================
+    // LOGIN
+    // ============================================
+    document.getElementById('loginFormElement').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const btn = document.getElementById('loginBtn');
+        const message = document.getElementById('loginMessage');
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+        
+        try {
+            const userCredential = await auth.signInWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            
+            // Get user data from Firestore
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            
+            if (userDoc.exists) {
+                const userData = userDoc.data();
+                
+                // Update last login
+                await db.collection('users').doc(user.uid).update({
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                showUserDashboard(userData);
+            } else {
+                // Create user document if it doesn't exist
+                const newUserData = {
+                    uid: user.uid,
+                    email: user.email,
+                    name: user.email.split('@')[0],
+                    role: 'user',
+                    emailVerified: user.emailVerified,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                await db.collection('users').doc(user.uid).set(newUserData);
+                showUserDashboard(newUserData);
+            }
+            
+        } catch (error) {
+            console.error('Login error:', error);
+            let errorMessage = '❌ Error signing in. ';
+            
+            switch (error.code) {
+                case 'auth/user-not-found':
+                    errorMessage += 'User not found.';
+                    break;
+                case 'auth/wrong-password':
+                    errorMessage += 'Incorrect password.';
+                    break;
+                case 'auth/user-disabled':
+                    errorMessage += 'Account disabled.';
+                    break;
+                default:
+                    errorMessage += error.message;
+            }
+            
+            showMessage('loginMessage', errorMessage, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+        }
+    });
+
+    // ============================================
+    // FORGOT PASSWORD
+    // ============================================
+    document.getElementById('forgotPasswordFormElement').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('forgotPasswordEmail').value;
+        const btn = document.getElementById('forgotPasswordBtn');
+        const message = document.getElementById('forgotPasswordMessage');
+        
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        
+        try {
+            await auth.sendPasswordResetEmail(email);
+            showMessage('forgotPasswordMessage', '✅ Password reset email sent! Check your inbox.', 'success');
+            document.getElementById('forgotPasswordFormElement').reset();
+            
+            // Go back to login after 3 seconds
+            setTimeout(() => {
+                showLoginForm();
+            }, 3000);
+            
+        } catch (error) {
+            console.error('Forgot password error:', error);
+            showMessage('forgotPasswordMessage', `❌ Error: ${error.message}`, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reset Link';
+        }
+    });
+
+    // ============================================
+    // USER MANAGEMENT FUNCTIONS
+    // ============================================
+    async function signOut() {
+        try {
+            await auth.signOut();
+            showSimpleNewsletter();
+            
+            // Remove user indicator from navbar
+            const userIndicator = document.getElementById('userNavIndicator');
+            if (userIndicator) {
+                userIndicator.remove();
+            }
+            
+            showMessage('loginMessage', '✅ Successfully signed out.', 'success');
+        } catch (error) {
+            console.error('Sign out error:', error);
+        }
+    }
+
+    async function sendVerificationEmail() {
+        const user = auth.currentUser;
+        if (user) {
+            try {
+                await user.sendEmailVerification();
+                alert('✅ Verification email sent! Please check your inbox.');
+            } catch (error) {
+                alert(`❌ Error: ${error.message}`);
+            }
+        }
+    }
+
+    // ============================================
+    // AUTH STATE LISTENER
+    // ============================================
+    auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            // User is signed in
+            try {
+                const userDoc = await db.collection('users').doc(user.uid).get();
+                
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    showUserDashboard(userData);
+                }
+            } catch (error) {
+                console.error('Auth state error:', error);
+            }
+        }
+        // If user is not signed in, the default view (simple newsletter) will show
+    });
+
+    // ============================================
+    // HELPER FUNCTIONS
+    // ============================================
+    function showMessage(elementId, message, type) {
+        const element = document.getElementById(elementId);
+        element.textContent = message;
+        element.style.display = 'block';
+        
+        if (type === 'success') {
+            element.style.background = 'rgba(0, 255, 136, 0.1)';
+            element.style.border = '1px solid rgba(0, 255, 136, 0.3)';
+            element.style.color = '#00ff88';
+        } else if (type === 'error') {
+            element.style.background = 'rgba(255, 0, 100, 0.1)';
+            element.style.border = '1px solid rgba(255, 0, 100, 0.3)';
+            element.style.color = '#ff0064';
+        }
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            element.style.display = 'none';
+        }, 5000);
+    }
+
+    // Initialize with simple newsletter view
+    document.addEventListener('DOMContentLoaded', () => {
+        showSimpleNewsletter();
+    });
+</script>
 </body>
 </html>
