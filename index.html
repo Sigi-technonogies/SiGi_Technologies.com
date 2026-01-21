@@ -755,16 +755,20 @@
             </div>
         </section>
     </main>
-
     <!-- Footer -->
     <footer>
         <div class="footer-logo">SiGi Technologies</div>
         <p>Open Source Innovation for Tomorrow's Homes | © 2025-2026 SiGi Technologies. All open source projects.</p>
     </footer>
 
-    <!-- Firebase Configuration and Initialization -->
+    <!-- ========== FIREBASE SDK E CONFIGURAZIONE ========== -->
+    <!-- QUESTI DEVONO ESSERE PRIMA DEL TUO CODICE -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <script>
-        // Firebase Configuration
+        // Firebase Configuration - SOSTITUISCI QUESTI VALORI SE NECESSARIO
         const firebaseConfig = {
             apiKey: "AIzaSyCYVAlY9trihiL5bK3JaKHvYr6M4-noTcM",
             authDomain: "sigi-technologies.firebaseapp.com",
@@ -774,15 +778,21 @@
             appId: "1:1069605850385:web:b6ae9cfbaa02ae4924d0b0"
         };
 
-        // Initialize Firebase services (compat version)
+        // Initialize Firebase
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+        
+        // Rendi auth e db disponibili globalmente
+        window.auth = firebase.auth();
+        window.db = firebase.firestore();
+        
+        console.log("Firebase initialized successfully");
+        console.log("Auth available:", !!window.auth);
+        console.log("Firestore available:", !!window.db);
     </script>
 
-    <!-- Application Scripts -->
+    <!-- ========== IL TUO CODICE APPLICAZIONE ========== -->
     <script>
         // Smooth scroll for navigation links
         function setupSmoothScroll() {
@@ -951,7 +961,7 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
             
             try {
-                // 1. Create auth user
+                // 1. Create auth user - USA window.auth
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 const user = userCredential.user;
                 
@@ -1208,6 +1218,10 @@
             setupSmoothScroll();
             showSimpleNewsletter();
             
+            // Verifica che Firebase sia caricato
+            console.log("DOM loaded, Firebase auth:", !!auth);
+            console.log("Firebase db:", !!db);
+            
             // Add a subtle hover effect to all project cards on page load
             setTimeout(() => {
                 const cards = document.querySelectorAll('.project-card');
@@ -1222,8 +1236,5 @@
             }, 500);
         });
     </script>
-
-
-
 </body>
 </html>
